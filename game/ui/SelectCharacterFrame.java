@@ -3,18 +3,18 @@ package game.ui;
 import game.animal.Animal;
 import game.core.CharacterFactory;
 import javax.swing.*;
-public class SelectCharacterFrame extends JFrame {
+public class SelectCharacterFrame extends JFrame { // JFrame คือตัวที่ทำให้เป็นโปรแกรมแบบทั่วๆไป
 
-    private JComboBox<String> player1Box;
+    private JComboBox<String> player1Box; //สร้าง Box
     private JComboBox<String> player2Box;
-    private JButton playButton;
+    private JButton playButton; //สร้างปุ่ม
 
     public SelectCharacterFrame() {
         setTitle("Select Character");
         setSize(400, 250);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-        setLayout(null);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //กดกากบาทเพื่อปิด
+        setLocationRelativeTo(null); //ตั้งค่าให้หน้าจออยู่ตรงกลาง
+        setLayout(null); //เราจะเซ็ตพิกัดเอง
 
         JLabel p1Label = new JLabel("Player 1:");
         p1Label.setBounds(50, 40, 100, 25);
@@ -40,14 +40,14 @@ public class SelectCharacterFrame extends JFrame {
 
         playButton.addActionListener(e -> {
 
-    String p1Type = player1Box.getSelectedItem().toString();
-    String p2Type = player2Box.getSelectedItem().toString();
+            String p1Type = player1Box.getSelectedItem().toString();
+            String p2Type = player2Box.getSelectedItem().toString();
 
-    Animal player1 = CharacterFactory.create(p1Type);
-    Animal player2 = CharacterFactory.create(p2Type);
+            Animal player1 = CharacterFactory.create(p1Type);
+            Animal player2 = CharacterFactory.create(p2Type);
 
-    new GameFrame(player1, player2); // ส่งตัวละครเข้าเกม
-    dispose(); // ปิดหน้าเลือก
-});
+            new GameFrame(player1, player2); // ส่งตัวละครเข้าเกม
+            dispose(); // ปิดหน้าเลือก
+        });
     }
 }

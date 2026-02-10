@@ -11,4 +11,11 @@ public class Game {
         this.player1 = p1;
         this.player2 = p2;
     }
+
+    public Animal getPlayer1() { //update add method getPlayer1,2
+        return player1 ;
+    }
+    public Animal getPlayer2() {
+        return player2 ;
+    }
 }

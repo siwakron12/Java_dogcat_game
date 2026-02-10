@@ -20,8 +20,13 @@ public abstract class Animal {
         if (hp < 0) hp = 0;
     }
 
-    public boolean isAlive() {
-        return hp > 0;
+    public boolean isAlive() { //update condition
+        if(hp > 0) {
+            return true ;
+        }
+        else {
+            return false ;
+        }
     }
 
     public String getName() {

@@ -1,7 +1,6 @@
 package game.core;
-import game.animal.Animal;
-import game.animal.Cat;
-import game.animal.Dog;
+import game.animal.*;
+
 public class CharacterFactory {
      public static Animal create(String type) {
         switch (type) {
