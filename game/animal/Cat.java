@@ -3,7 +3,7 @@ package game.animal;
 public class Cat extends Animal {
 
     public Cat() {
-        super("Cat", 80, 15);
+        super("cat.png","Cat", 80, 15);
     }
 
     @Override
