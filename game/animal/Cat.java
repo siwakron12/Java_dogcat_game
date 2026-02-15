@@ -1,5 +1,7 @@
 package game.animal;
 
+import game.core.Item;
+
 public class Cat extends Animal {
 
     public Cat() {
@@ -7,8 +9,14 @@ public class Cat extends Animal {
     }
 
     @Override
-    public void throwItem(Animal target) {
-        target.takeDamage(super.attackDamage);
-        System.out.println(name + " throws a fish!");
+     public Item throwItem(int power, int groundY, boolean facingRight) {
+        int direction = facingRight ? 1 : -1;
+
+        return new Item(
+            x_position + 50,
+            groundY - 80,
+            direction * power * 0.5,
+            -power * 0.8
+        );
     }
 }
