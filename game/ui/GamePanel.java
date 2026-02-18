@@ -10,9 +10,11 @@ public class GamePanel extends JPanel {
     private Game game;
 
     final int WALL_WIDTH = 20;
-    final int wallHeight = 150;
+    final int wallHeight = 130;
     final int GROUND_Y = 500;
-
+    
+   final int wall_X = getWidth() / 2 - WALL_WIDTH / 2;
+   final int gapWall = 200;
     public GamePanel(Game game) {
         this.game = game;
         setBackground(new Color(135, 206, 235)); // set bg color

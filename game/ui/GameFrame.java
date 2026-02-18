@@ -16,15 +16,17 @@ public GameFrame(Animal p1, Animal p2) {
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setLocationRelativeTo(null);
 
-    setLayout(new GridBagLayout());
+   setLayout(new BorderLayout());
 
     GamePanel gamePanel = new GamePanel(game);
-    gamePanel.setPreferredSize(new Dimension(1440, 1000)); // ขนาดสนามจริง
+    gamePanel.setPreferredSize(new Dimension(1000, 800)); // ขนาดสนามจริง
 
-    add(gamePanel);
+       add(gamePanel);
 
-    pack();             
-    setLocationRelativeTo(null); // จัดกลางจอ
-    setVisible(true);
+
+    pack();
+setResizable(false);        // ⭐ ล็อกขนาดหน้าต่าง
+setLocationRelativeTo(null);
+setVisible(true);
 }
 }

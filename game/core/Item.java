@@ -17,7 +17,7 @@ public class Item {
 
     public void update() {
         if (active == false) return;
-
+        // vy จากติดลบเป็นบวกเพราะแกน y ในจาวาเพิ่มลงไปข้างล่าง
         vy += 0.5;   // gravity
         x += vx;
         y += vy;
@@ -33,7 +33,7 @@ public class Item {
         return new Rectangle((int)x, (int)y, SIZE, SIZE);
     }
 
-    public void deactivate() {
+    public void deactivate() { // เมื่อไอเท็มตกพื้นหรือชนกำแพง จะถูกยกเลิกการใช้งาน
         active = false;
     }
 

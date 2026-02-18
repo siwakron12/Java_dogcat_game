@@ -15,8 +15,8 @@ public class Dog extends Animal {
          return new Item(
             x_position + 50,
             groundY - 80,
-            direction * power * 0.7,
-            -power * 0.5
+            direction * power * 0.5,
+            -power * 0.8
         );
     }
 }

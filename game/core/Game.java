@@ -14,10 +14,12 @@ public class Game {
     public Game(Animal p1, Animal p2) {
         this.player1 = p1;
         this.player2 = p2;
-        player1.setX_position(425);
-        player2.setX_position(900);
+        p1.setX_position(250); // กำหนดตำแหน่งเริ่มต้นของผู้เล่น
+        p2.setX_position(650);
+        
+  
     }
-   
+
     public Animal getCurrentPlayer() {
     return currentTurn == 1 ? player1 : player2;
     }
@@ -60,7 +62,7 @@ public void stopChargingAndThrow() {
 public void update(int groundY) {
     if (charging) {
         power++;
-        if (power > 50) power = 50;
+        if (power > 20) power = 20;
     }
 
     if (currentItem != null && currentItem.isActive()) {
