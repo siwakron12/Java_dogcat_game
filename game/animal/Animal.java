@@ -1,16 +1,20 @@
 package game.animal;
+
 import game.core.Item;
 import java.awt.Image;
+import java.awt.Rectangle;
 import javax.swing.ImageIcon;
 
 public abstract class Animal {
-     private Image image;
+
+    private Image image;
     protected String name;
     protected int hp;
     protected int attackDamage;
-    protected int x_position ;
-    public Animal(String imagePath,String name, int hp, int attackDamage) {
-         java.net.URL url = getClass().getResource("/assets/" + imagePath);
+    protected int x_position;
+
+    public Animal(String imagePath, String name, int hp, int attackDamage) {
+        java.net.URL url = getClass().getResource("/assets/" + imagePath);
         this.image = new ImageIcon(url).getImage();
         this.name = name;
         this.hp = hp;
@@ -20,24 +24,26 @@ public abstract class Animal {
     public int getX_position() {
         return x_position;
     }
-    public  void setX_position(int x_position) {
+
+    public void setX_position(int x_position) {
         this.x_position = x_position;
     }
-    // polymorphism → แต่ละตัวละครโจมตีต่างกันได้
-     public abstract Item throwItem(int power, int groundY, boolean facingRight);
 
+    // polymorphism → แต่ละตัวละครโจมตีต่างกันได้
+    public abstract Item throwItem(int power, int groundY, boolean facingRight);
 
     public void takeDamage(int damage) {
         hp -= damage;
-        if (hp < 0) hp = 0;
+        if (hp < 0) {
+            hp = 0;
+        }
     }
 
     public boolean isAlive() { //update condition
-        if(hp > 0) {
-            return true ;
-        }
-        else {
-            return false ;
+        if (hp > 0) {
+            return true;
+        } else {
+            return false;
         }
     }
 
@@ -52,7 +58,12 @@ public abstract class Animal {
     public int getAttackDamage() {
         return this.attackDamage;
     }
+
     public Image getImage() {
         return this.image;
+    }
+
+    public Rectangle getBounds(int groundY) {
+        return new Rectangle((int) x_position, groundY - 80, 100, 100);
     }
 }

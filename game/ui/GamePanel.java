@@ -12,9 +12,10 @@ public class GamePanel extends JPanel {
     final int WALL_WIDTH = 20;
     final int wallHeight = 130;
     final int GROUND_Y = 500;
-    
-   final int wall_X = getWidth() / 2 - WALL_WIDTH / 2;
-   final int gapWall = 200;
+
+    final int wall_X = getWidth() / 2 - WALL_WIDTH / 2;
+    final int gapWall = 200;
+
     public GamePanel(Game game) {
         this.game = game;
         setBackground(new Color(135, 206, 235)); // set bg color
@@ -74,12 +75,12 @@ public class GamePanel extends JPanel {
             g2.fillRect(x, y, barWidth, barHeight);
 
             g2.setColor(Color.RED);
-            g2.fillRect(x, y, game.getPower() , barHeight);
+            g2.fillRect(x, y, game.getPower(), barHeight);
 
             g2.setColor(Color.BLACK);
             g2.drawRect(x, y, barWidth, barHeight);
         }
-
+        // trun ของผู้เล่น
         if (game.getCurrentItem() != null && game.getCurrentItem().isActive()) {
             game.getCurrentItem().draw(g2);
             g2.setFont(new Font("Arial", Font.BOLD, 18));
@@ -90,17 +91,23 @@ public class GamePanel extends JPanel {
         }
         Rectangle wallRect = new Rectangle(wall_X, wallTopY, WALL_WIDTH, wallHeight);
         game.checkWallCollision(wallRect);
+        game.checkAnimalCollision(GROUND_Y);
     }
 
     private void drawAnimal(Graphics2D g2, Animal animal, int x, int y) {
 
         // วาดรูป
+        g2.setColor(Color.RED);
+        g2.fillRect(x, y - 35, animal.getHp(), 5);
+
+       
         g2.drawImage(animal.getImage(), x, y, 100, 100, null);
 
         // ชื่อสัตว์
         g2.setFont(new Font("Arial", Font.BOLD, 14));
         g2.drawString(animal.getName(), x, y - 10);
     }
+
 }
 
 //gamepanel
