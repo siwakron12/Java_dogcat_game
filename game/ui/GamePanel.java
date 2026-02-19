@@ -66,7 +66,7 @@ public class GamePanel extends JPanel {
         drawAnimal(g2, p2, p2.getX_position(), GROUND_Y - 80);
 
         if (game.isCharging()) {
-            int barWidth = 100;
+            int barWidth = 20;
             int barHeight = 20;
             int x = 20;
             int y = 50;

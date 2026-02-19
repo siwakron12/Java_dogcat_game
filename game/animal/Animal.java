@@ -29,7 +29,6 @@ public abstract class Animal {
         this.x_position = x_position;
     }
 
-    // polymorphism → แต่ละตัวละครโจมตีต่างกันได้
     public abstract Item throwItem(int power, int groundY, boolean facingRight);
 
     public void takeDamage(int damage) {

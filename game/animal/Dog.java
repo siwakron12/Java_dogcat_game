@@ -13,10 +13,10 @@ public class Dog extends Animal {
         int direction = facingRight ? 1 : -1;
 
          return new Item(
-            x_position + 50,
-            groundY - 80,
-            direction * power * 0.5,
-            -power * 0.8
+            x_position + 50, //x
+            groundY - 80, // y
+            direction * power * 0.5 , // vx
+            -power * 0.8 // vy
         );
     }
 }
