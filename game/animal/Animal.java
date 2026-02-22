@@ -8,11 +8,17 @@ import javax.swing.ImageIcon;
 public abstract class Animal {
 <<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
     private Image image;
     protected String name;
     protected int hp;
     protected int attackDamage;
     protected int x_position;
+<<<<<<< Updated upstream
+=======
+    protected boolean skillUsed = true;
+>>>>>>> Stashed changes
 
     public Animal(String imagePath, String name, int hp, int attackDamage) {
         java.net.URL url = getClass().getResource("/assets/" + imagePath);
@@ -20,6 +26,18 @@ public abstract class Animal {
         this.name = name;
         this.hp = hp;
         this.attackDamage = attackDamage;
+    }
+
+    public void useSkill() {
+        if (!skillUsed) {
+            System.out.println(getName() + " used skill!");
+            skillUsed = true; // ทำเครื่องหมายว่าใช้ไปแล้ว
+        } else {
+            System.out.println(getName() + " has already used their skill.");
+        }
+    }
+    public boolean canUseSkill() {
+        return !skillUsed; // สามารถใช้ได้ถ้ายังไม่ใช้
     }
 
     public int getX_position() {
@@ -30,16 +48,28 @@ public abstract class Animal {
         this.x_position = x_position;
     }
 
+<<<<<<< Updated upstream
+=======
+    // polymorphism
+>>>>>>> Stashed changes
     public abstract Item throwItem(int power, int groundY, boolean facingRight);
 
     public void takeDamage(int damage) {
         hp -= damage;
+<<<<<<< Updated upstream
         if (hp < 0) {
             hp = 0;
         }
     }
 
     public boolean isAlive() { //update condition
+=======
+        if (hp < 0)
+            hp = 0;
+    }
+
+    public boolean isAlive() { // update condition
+>>>>>>> Stashed changes
         if (hp > 0) {
             return true;
         } else {
