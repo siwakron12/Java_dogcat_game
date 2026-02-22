@@ -6,7 +6,7 @@ import java.awt.Rectangle;
 import javax.swing.ImageIcon;
 
 public abstract class Animal {
-    private boolean skillUsed = false;
+    private int skillCooldown = 0;
     private String nameSkill = "";
     private Image image;
     protected String name;
@@ -30,7 +30,7 @@ public abstract class Animal {
         this.x_position = x_position;
     }
 
-    public abstract Item throwItem(int power, int groundY, boolean facingRight);
+    public abstract Item throwItem(int power, int groundY, boolean isFace);
 
     public void takeDamage(int damage) {
         hp -= damage;
@@ -76,11 +76,26 @@ public abstract class Animal {
     public String getNameSkill() {
         return this.nameSkill;
     }
+    // ทำให้สกิลมีคูลดาวน์
     public boolean canUseSkill() {
-        return !this.skillUsed;
+        return this.skillCooldown == 0;
     }
 
-    public void markSkillUsed() {
-        this.skillUsed = true;
+    public int getSkillCooldown() {
+        return this.skillCooldown ;
+    }
+
+    public void setCooldown(int turns) {
+        this.skillCooldown = turns ;
+    }
+
+    public void reduceCooldown() {
+        if(this.skillCooldown > 0) {
+            this.skillCooldown-- ;
+        }
+    }
+
+    public void clearSkillEffect() {
+        this.nameSkill = " " ;
     }
 }

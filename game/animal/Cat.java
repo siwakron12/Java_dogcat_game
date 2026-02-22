@@ -27,8 +27,10 @@ public class Cat extends Animal implements CanHeal {
 
     @Override
     public void useSkill() {
-        heal(10);
-        super.markSkillUsed();
-        super.setNameSkill("Heal + 10HP");
+        if(this.canUseSkill()) {
+            System.out.println(this.getName()+ "Heal +10 HP");
+            this.hp += 10 ;
+            this.setCooldown(2);
+        }
     }
 }
