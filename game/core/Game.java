@@ -13,6 +13,17 @@ public class Game {
     private Animal player1;
     private Animal player2;
     private int currentTurn = 1;
+    // สถานะเกม
+    private boolean gameOver = false;
+    private Animal winner = null;
+
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+    public Animal getWinner() {
+        return winner;
+    }
 
     public Game(Animal p1, Animal p2) {
         this.player1 = p1;
@@ -25,14 +36,16 @@ public class Game {
     public Animal getCurrentPlayer() {
         return currentTurn == 1 ? player1 : player2;
     }
+
     public Animal getOpponentPlayer() {
         return currentTurn == 1 ? player2 : player1;
     }
+
     public void switchTurn() {
         currentTurn = (currentTurn == 1) ? 2 : 1;
     }
 
-    public Animal getPlayer1() { //update add method getPlayer1,2
+    public Animal getPlayer1() { // update add method getPlayer1,2
         return player1;
     }
 
@@ -66,6 +79,8 @@ public class Game {
     }
 
     public void update(int groundY) {
+        if (gameOver)
+            return;
         if (charging) {
             power++;
             if (power > 20) {
@@ -118,7 +133,22 @@ public class Game {
             currentItem.deactivate();
             switchTurn();
         }
+        // ตรวจสอบว่าตัวเอง HP หมดหรือยัง
+        if (getCurrentPlayer().getHp() <= 0) {
+            gameOver = true;
+            winner = getOpponentPlayer(); // ผู้เล่นที่ยังมี HP เป็นผู้ชนะ
+        }
 
+    }
+
+    // skill
+    public void useCurrentPlayerSkill() {
+        Animal current = getCurrentPlayer();
+
+        if (!current.canUseSkill())
+            return;
+
+        current.useSkill();
     }
 
 }

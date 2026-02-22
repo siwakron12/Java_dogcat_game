@@ -13,7 +13,7 @@ public class GamePanel extends JPanel {
     final int wallHeight = 130;
     final int GROUND_Y = 500;
 
-    final int wall_X = getWidth() / 2 - WALL_WIDTH / 2;
+    // final int wall_X = getWidth() / 2 - WALL_WIDTH / 2;
     final int gapWall = 200;
 
     public GamePanel(Game game) {
@@ -43,11 +43,7 @@ public class GamePanel extends JPanel {
         getActionMap().put("skill", new AbstractAction() {
             @Override
             public void actionPerformed(java.awt.event.ActionEvent e) {
-                Animal current = game.getCurrentPlayer();
-
-                if (current.canUseSkill()) {
-                    current.useSkill();
-                }
+                game.useCurrentPlayerSkill();
             }
         });
 
@@ -101,17 +97,15 @@ public class GamePanel extends JPanel {
             g2.setFont(new Font("Arial", Font.BOLD, 18));
             g2.drawString("Turn: " + game.getCurrentPlayer().getName(), 20, 30);
         }
+
         Rectangle wallRect = new Rectangle(wall_X, wallTopY, WALL_WIDTH, wallHeight);
         game.checkWallCollision(wallRect);
-<<<<<<< Updated upstream
         game.checkAnimalCollision(GROUND_Y);
-=======
 
         Animal current = game.getCurrentPlayer();
-
         int btnX = 20;
         int btnY = 80;
-        int btnW = 120;
+        int btnW = 130;
         int btnH = 40;
 
         // สีปุ่ม
@@ -131,9 +125,27 @@ public class GamePanel extends JPanel {
         g2.setColor(Color.WHITE);
         g2.setFont(new Font("Arial", Font.BOLD, 14));
 
-        String text = current.canUseSkill() ? "Skill (H)" : "Skill USED";
+        String text = current.canUseSkill() ? "press H to use skill" : "can use skill 1 time";
         g2.drawString(text, btnX + 15, btnY + 25);
->>>>>>> Stashed changes
+        if (!current.canUseSkill()) {
+            g2.setColor(Color.YELLOW);
+            g2.drawString(current.getNameSkill(), current.getX_position(), GROUND_Y - 150);
+        }
+
+        if (game.isGameOver()) {
+            g2.setColor(new Color(0, 0, 0, 180));
+            g2.fillRect(0, 0, getWidth(), getHeight());
+
+            g2.setColor(Color.WHITE);
+            g2.setFont(new Font("Arial", Font.BOLD, 36));
+            String winner = "WINNER IS : " + game.getWinner().getName();
+
+            FontMetrics fm = g2.getFontMetrics();
+            int x = (getWidth() - fm.stringWidth(winner)) / 2;
+            int y = getHeight() / 2;
+
+            g2.drawString(winner, x, y);
+        }
     }
 
     private void drawAnimal(Graphics2D g2, Animal animal, int x, int y) {
@@ -142,12 +154,12 @@ public class GamePanel extends JPanel {
         g2.setColor(Color.RED);
         g2.fillRect(x, y - 35, animal.getHp(), 5);
 
-       
         g2.drawImage(animal.getImage(), x, y, 100, 100, null);
 
         // ชื่อสัตว์
         g2.setFont(new Font("Arial", Font.BOLD, 14));
         g2.drawString(animal.getName(), x, y - 10);
+
     }
 
 }

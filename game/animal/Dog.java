@@ -13,14 +13,6 @@ public class Dog extends Animal implements BoostDmg {
     public Item throwItem(int power, int groundY, boolean facingRight) {
         int direction = facingRight ? 1 : -1;
 
-<<<<<<< Updated upstream
-         return new Item(
-            x_position + 50, //x
-            groundY - 80, // y
-            direction * power * 0.5 , // vx
-            -power * 0.8 // vy
-        );
-=======
         return new Item(
                 x_position + 50,
                 groundY - 80,
@@ -32,9 +24,11 @@ public class Dog extends Animal implements BoostDmg {
     public void boostDmg(int amount) {
         super.attackDamage += amount;
     }
+
     @Override
     public void useSkill() {
         boostDmg(15);
->>>>>>> Stashed changes
+        super.markSkillUsed();
+        super.setNameSkill("Boost Damage + 15");
     }
 }
