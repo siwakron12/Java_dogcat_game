@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import javax.swing.ImageIcon;
 
 public abstract class Animal {
+<<<<<<< Updated upstream
 
     private Image image;
     protected String name;
