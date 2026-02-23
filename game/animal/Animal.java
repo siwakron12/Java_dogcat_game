@@ -67,7 +67,6 @@ public abstract class Animal {
         return new Rectangle((int) x_position, groundY - 80, 100, 100);
     }
 // skill
-    public void useSkill() {
     public  abstract void useSkill();
     
     public void setNameSkill(String name) {
