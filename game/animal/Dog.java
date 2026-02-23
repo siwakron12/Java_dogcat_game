@@ -4,6 +4,7 @@ import game.core.Item;
 import game.skill.BoostDmg;
 
 public class Dog extends Animal implements BoostDmg {
+    private boolean isBuffActive = false ;
 
     public Dog() {
         super("dog.png", "Dog", 100, 10);
@@ -27,8 +28,20 @@ public class Dog extends Animal implements BoostDmg {
 
     @Override
     public void useSkill() {
-        boostDmg(15);
-        super.markSkillUsed();
-        super.setNameSkill("Boost Damage + 15");
+        if(this.canUseSkill()) {
+            this.setNameSkill("Boost Damage +15!") ;
+            this.attackDamage += 15 ;
+            this.setCooldown(2);
+        }
+    }
+
+    @Override
+    public void clearSkillEffect() {
+        super.clearSkillEffect();
+
+        if(this.isBuffActive) {
+            this.attackDamage -= 15 ;
+            this.isBuffActive = false ;
+        }
     }
 }

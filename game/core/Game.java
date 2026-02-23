@@ -7,8 +7,10 @@ public class Game {
 
     // ตัวแปรสำหรับโยน
     private int power = 0;
+    private int chargeDelay = 0 ;
     private boolean charging = false;
     private Item currentItem;
+    private boolean isPowerIncreasing = true ;
     // ตัวแปรสำหรับผู้เล่น
     private Animal player1;
     private Animal player2;
@@ -42,7 +44,9 @@ public class Game {
     }
 
     public void switchTurn() {
+        getCurrentPlayer().clearSkillEffect();
         currentTurn = (currentTurn == 1) ? 2 : 1;
+        getCurrentPlayer().reduceCooldown();
     }
 
     public Animal getPlayer1() { // update add method getPlayer1,2
@@ -62,7 +66,12 @@ public class Game {
     }
 
     public void startCharging() {
+        if(this.charging) {
+            return ;
+        }
         this.charging = true;
+        power = 0 ;
+        isPowerIncreasing = true ;
     }
 
     public void stopChargingAndThrow() {
@@ -78,13 +87,31 @@ public class Game {
         return this.currentItem;
     }
 
-    public void update(int groundY) {
+    public void update(int groundY) { //ทำให้หลอดชาร์จไปกลับได้
         if (gameOver)
             return;
         if (charging) {
-            power++;
-            if (power > 20) {
-                power = 20;
+            chargeDelay++ ;
+
+            if(chargeDelay >= 1) {
+
+                if(isPowerIncreasing) {
+                    power++ ;
+
+                    if(power >= 20) {
+                        power = 20 ;
+                        isPowerIncreasing = false ;
+                    }
+                }
+                else {
+                    power-- ;
+                    if(power <= 0) {
+                        power = 0 ;
+                        isPowerIncreasing = true ;
+                    }
+                }
+
+                chargeDelay = 0 ;
             }
         }
 
