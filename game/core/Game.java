@@ -7,10 +7,10 @@ public class Game {
 
     // ตัวแปรสำหรับโยน
     private int power = 0;
-    private int chargeDelay = 0 ;
+    private int chargeDelay = 0;
     private boolean charging = false;
     private Item currentItem;
-    private boolean isPowerIncreasing = true ;
+    private boolean isPowerIncreasing = true;
     // ตัวแปรสำหรับผู้เล่น
     private Animal player1;
     private Animal player2;
@@ -19,20 +19,79 @@ public class Game {
     private boolean gameOver = false;
     private Animal winner = null;
 
-    public boolean isGameOver() {
-        return gameOver;
-    }
-
-    public Animal getWinner() {
-        return winner;
-    }
-
     public Game(Animal p1, Animal p2) {
         this.player1 = p1;
         this.player2 = p2;
         p1.setX_position(250); // กำหนดตำแหน่งเริ่มต้นของผู้เล่น
         p2.setX_position(650);
 
+    }
+
+    public void update(int groundY, Rectangle wall) {
+        if (gameOver) {
+            return;
+        }
+
+        // ----- ระบบชาร์จ -----
+        if (charging) {
+            chargeDelay++;
+
+            if (chargeDelay >= 1) {
+                if (isPowerIncreasing) {
+                    power++;
+                    if (power >= 20) {
+                        power = 20;
+                        isPowerIncreasing = false;
+                    }
+                } else {
+                    power--;
+                    if (power <= 0) {
+                        power = 0;
+                        isPowerIncreasing = true;
+                    }
+                }
+                chargeDelay = 0;
+            }
+        }
+        checkCollision(groundY, wall);
+    }
+    
+    // ----- ระบบการชน -----
+    public void checkCollision(int groundY, Rectangle wall) {
+        // ----- อัปเดตไอเท็ม -----
+        if (currentItem != null && currentItem.isActive()) {
+            currentItem.update();
+
+            // ชนกำแพง
+            if (currentItem.getBounds().intersects(wall)) {
+                currentItem.deactivate();
+                switchTurn();
+                return;
+            }
+
+            // ชนผู้เล่น
+            if (currentItem.getBounds().intersects(getOpponentPlayer().getBounds(groundY))) {
+                getOpponentPlayer().takeDamage(20);
+                currentItem.deactivate();
+                switchTurn();
+                checkGameOver();
+                return;
+            }
+
+            // ตกพื้น
+            if (currentItem.getY() >= groundY) {
+                currentItem.deactivate();
+                switchTurn();
+            }
+        }
+    }
+
+    public boolean isGameOver() {
+        return gameOver;
+    }
+
+    public Animal getWinner() {
+        return winner;
     }
 
     public Animal getCurrentPlayer() {
@@ -66,12 +125,12 @@ public class Game {
     }
 
     public void startCharging() {
-        if(this.charging) {
-            return ;
+        if (this.charging) {
+            return;
         }
         this.charging = true;
-        power = 0 ;
-        isPowerIncreasing = true ;
+        power = 0;
+        isPowerIncreasing = true;
     }
 
     public void stopChargingAndThrow() {
@@ -87,42 +146,13 @@ public class Game {
         return this.currentItem;
     }
 
-    public void update(int groundY) { //ทำให้หลอดชาร์จไปกลับได้
-        if (gameOver)
-            return;
-        if (charging) {
-            chargeDelay++ ;
-
-            if(chargeDelay >= 1) {
-
-                if(isPowerIncreasing) {
-                    power++ ;
-
-                    if(power >= 20) {
-                        power = 20 ;
-                        isPowerIncreasing = false ;
-                    }
-                }
-                else {
-                    power-- ;
-                    if(power <= 0) {
-                        power = 0 ;
-                        isPowerIncreasing = true ;
-                    }
-                }
-
-                chargeDelay = 0 ;
-            }
-        }
-
-        if (currentItem != null && currentItem.isActive()) {
-            currentItem.update();
-
-            // ตกพื้น = จบเทิร์น
-            if (currentItem.getY() >= groundY) {
-                currentItem.deactivate();
-                switchTurn();
-            }
+    private void checkGameOver() {
+        if (player1.getHp() <= 0) {
+            gameOver = true;
+            winner = player2;
+        } else if (player2.getHp() <= 0) {
+            gameOver = true;
+            winner = player1;
         }
     }
 
@@ -172,8 +202,9 @@ public class Game {
     public void useCurrentPlayerSkill() {
         Animal current = getCurrentPlayer();
 
-        if (!current.canUseSkill())
+        if (!current.canUseSkill()) {
             return;
+        }
 
         current.useSkill();
     }

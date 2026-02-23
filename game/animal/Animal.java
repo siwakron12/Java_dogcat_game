@@ -8,6 +8,7 @@ import javax.swing.ImageIcon;
 public abstract class Animal {
     private int skillCooldown = 0;
     private String nameSkill = "";
+    
     private Image image;
     protected String name;
     protected int hp;

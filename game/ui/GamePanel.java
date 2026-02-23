@@ -18,12 +18,18 @@ public class GamePanel extends JPanel {
 
     public GamePanel(Game game) {
         this.game = game;
-        setBackground(new Color(135, 206, 235)); // set bg color
-        Timer timer = new Timer(16, e -> {
-            game.update(GROUND_Y);
+        setBackground(new Color(135, 206, 235));
+
+        // set bg color
+        Timer timer = new Timer(16, e -> { //ทุก ๆ 16 ms ให้เรียกโค้ดใน lambda
+            int wall_X = getWidth() / 2 - WALL_WIDTH / 2; // กำแพง x กลาง
+            int wallTopY = GROUND_Y - wallHeight; // กำแพง y บนสุด
+            Rectangle wallRect = new Rectangle(wall_X, wallTopY, WALL_WIDTH, wallHeight);
+            game.update(GROUND_Y, wallRect);
             repaint();
         });
-        timer.start();
+        timer.start(); // เริ่มต้น timer
+
         getInputMap().put(KeyStroke.getKeyStroke("pressed SPACE"), "charge");
         getActionMap().put("charge", new AbstractAction() {
             @Override
@@ -70,24 +76,25 @@ public class GamePanel extends JPanel {
         Animal p1 = game.getPlayer1();
         Animal p2 = game.getPlayer2();
 
-        drawAnimal(g2, p1, p1.getX_position(), GROUND_Y - 80 , "P1");
-        drawAnimal(g2, p2, p2.getX_position(), GROUND_Y - 80 , "P2");
+        drawAnimal(g2, p1, p1.getX_position(), GROUND_Y - 80, "P1");
+        drawAnimal(g2, p2, p2.getX_position(), GROUND_Y - 80, "P2");
 
+        // แสดงพลังการโยน ของใครของมัน
         if (game.isCharging()) {
-            System.out.println("Power ตอนนี้คือ: " + game.getPower()); 
+            System.out.println("Power ตอนนี้คือ: " + game.getPower());
 
-            Animal chargingPlayer = game.getCurrentPlayer() ;
-            int charx = chargingPlayer.getX_position() ;
-            int chary = GROUND_Y-80 ;
+            Animal chargingPlayer = game.getCurrentPlayer();
+            int charx = chargingPlayer.getX_position();
+            int chary = GROUND_Y - 80;
 
-            int maxPower = 20 ;
+            int maxPower = 20;
             int barWidth = 60;
             int barHeight = 10;
-            int x = charx+20;
-            int y = chary-50;
+            int x = charx + 20;
+            int y = chary - 50;
 
-            int currentPower = (game.getPower()*barWidth)/maxPower ;
-            currentPower = Math.min(currentPower,barWidth) ;
+            int currentPower = (game.getPower() * barWidth) / maxPower;
+            currentPower = Math.min(currentPower, barWidth);
 
             g2.setColor(Color.GRAY);
             g2.fillRect(x, y, barWidth, barHeight);
@@ -101,28 +108,27 @@ public class GamePanel extends JPanel {
         }
 
         // update turn player
-        Animal currentTurnPlayer = game.getCurrentPlayer() ;
-        String playerTurnTag = (currentTurnPlayer == p1) ? "Player 1" : "Player 2" ;
-        String turnText = "Turn : " + playerTurnTag+" ("+currentTurnPlayer.getName()+") " ;
+        Animal currentTurnPlayer = game.getCurrentPlayer();
+        String playerTurnTag = (currentTurnPlayer == p1) ? "Player 1" : "Player 2";
+        String turnText = "Turn : " + playerTurnTag + " (" + currentTurnPlayer.getName() + ") ";
         // turn ของผู้เล่น
         if (game.getCurrentItem() != null && game.getCurrentItem().isActive()) {
             game.getCurrentItem().draw(g2);
         }
         g2.setFont(new Font("Arial", Font.BOLD, 18));
-        g2.setColor(Color.RED) ;
+        g2.setColor(Color.RED);
         g2.drawString(turnText, 20, 30);
 
-        Rectangle wallRect = new Rectangle(wall_X, wallTopY, WALL_WIDTH, wallHeight);
-        game.checkWallCollision(wallRect);
-        game.checkAnimalCollision(GROUND_Y);
 
+
+        // ปุ่มสกิล
         Animal current = game.getCurrentPlayer();
         int btnX = 20;
         int btnY = 80;
         int btnW = 160;
         int btnH = 40;
 
-        // สีปุ่ม
+        // สีปุ่ม skill
         if (current.canUseSkill()) {
             g2.setColor(new Color(70, 130, 180)); // ใช้ได้
         } else {
@@ -140,18 +146,18 @@ public class GamePanel extends JPanel {
         g2.setFont(new Font("Arial", Font.BOLD, 14));
 
         String text;
-        if(current.canUseSkill()) {
-            text = "Press H : Use Skill" ;
-        } 
-        else {
-            text = "Cooldown : "+current.getSkillCooldown() + " turn" ;
+        if (current.canUseSkill()) {
+            text = "Press H : Use Skill";
+        } else {
+            text = "Cooldown : " + current.getSkillCooldown() + " turn";
         }
-        g2.drawString(text , btnX+15 , btnY+25) ;
+        //ชื่อสกิล
+        g2.drawString(text, btnX + 15, btnY + 25);
         if (!current.getNameSkill().equals("")) {
             g2.setColor(Color.YELLOW);
             g2.drawString(current.getNameSkill(), current.getX_position(), GROUND_Y - 150);
         }
-
+        // ข้อความจบเกม
         if (game.isGameOver()) {
             g2.setColor(new Color(0, 0, 0, 180));
             g2.fillRect(0, 0, getWidth(), getHeight());
@@ -159,9 +165,9 @@ public class GamePanel extends JPanel {
             g2.setColor(Color.WHITE);
             g2.setFont(new Font("Arial", Font.BOLD, 36));
 
-            Animal winnerAnimal = game.getWinner() ;
-            String playerTag = (winnerAnimal == p1) ? "Player 1 " : "Player 2" ;
-            String winner = "WINNER IS : " + playerTag + " (" + winnerAnimal.getName() +")";
+            Animal winnerAnimal = game.getWinner();
+            String playerTag = (winnerAnimal == p1) ? "Player 1 " : "Player 2";
+            String winner = "WINNER IS : " + playerTag + " (" + winnerAnimal.getName() + ")";
 
             FontMetrics fm = g2.getFontMetrics();
             int x = (getWidth() - fm.stringWidth(winner)) / 2;
@@ -171,7 +177,7 @@ public class GamePanel extends JPanel {
         }
     }
 
-    private void drawAnimal(Graphics2D g2, Animal animal, int x, int y , String tag) {
+    private void drawAnimal(Graphics2D g2, Animal animal, int x, int y, String tag) {
 
         // วาดรูป
         g2.setColor(Color.RED);
@@ -180,9 +186,9 @@ public class GamePanel extends JPanel {
         g2.drawImage(animal.getImage(), x, y, 100, 100, null);
 
         // ชื่อสัตว์
-        g2.setColor(Color.RED) ;
+        g2.setColor(Color.RED);
         g2.setFont(new Font("Arial", Font.BOLD, 14));
-        g2.drawString(tag +" " +animal.getName(), x, y - 10);
+        g2.drawString(tag + " " + animal.getName(), x, y - 10);
 
     }
 
