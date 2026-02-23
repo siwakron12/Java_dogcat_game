@@ -68,6 +68,7 @@ public abstract class Animal {
     }
 // skill
     public void useSkill() {
+    public  abstract void useSkill();
     
     public void setNameSkill(String name) {
         this.nameSkill = name;
