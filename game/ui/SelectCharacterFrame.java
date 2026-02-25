@@ -20,7 +20,7 @@ public class SelectCharacterFrame extends JFrame { // JFrame คือตัว�
         p1Label.setBounds(50, 40, 100, 25);
         add(p1Label);
 
-        player1Box = new JComboBox<>(new String[]{"Dog", "Cat", "Bird"});
+        player1Box = new JComboBox<>(new String[]{"Dog", "Cat"}); //Del Birds
         player1Box.setBounds(150, 40, 150, 25);
         add(player1Box);
 
@@ -28,7 +28,7 @@ public class SelectCharacterFrame extends JFrame { // JFrame คือตัว�
         p2Label.setBounds(50, 80, 100, 25);
         add(p2Label);
 
-        player2Box = new JComboBox<>(new String[]{"Dog", "Cat", "Bird"});
+        player2Box = new JComboBox<>(new String[]{"Dog", "Cat"}); //Del Birds
         player2Box.setBounds(150, 80, 150, 25);
         add(player2Box);
 
